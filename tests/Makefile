@@ -13,9 +13,12 @@ or:
 ifc:
 	rm -rf sim_build
 	$(MAKE) sim MODULE=ifc_test TOPLEVEL=ifc_test
-ifc_demo:
+ifc_demo_dist:
 	rm -rf sim_build
 	$(MAKE) sim MODULE=ifc_test_demo TOPLEVEL=ifc_test
+ifc_demo_rand:
+	rm -rf sim_build
+	$(MAKE) sim MODULE=ifc_test_rn TOPLEVEL=ifc_test
 or_wave:
 	rm -rf sim_build
 	$(MAKE) sim MODULE=or_test TOPLEVEL=or_test

@@ -1,12 +1,30 @@
-#test with directed test
+#test with random test
 
 import cocotb
 from cocotb.triggers import Timer, RisingEdge,ReadOnly, NextTimeStep
 from cocotb_bus.drivers import BusDriver
+from cocotb_coverage.coverage import CoverCross, CoverPoint, coverage_db
 
 def sb_fn(actual_value): #callback fxn
     global expected_value
     assert actual_value == expected_value.pop(0), "Scoreboard Matching failed"
+
+@CoverPoint("top.a",#noqa F405
+            xf=lambda x,y:x,
+            bins=[0,1]
+            )
+@CoverPoint("top.b",#noqa F405
+            xf=lambda x,y:y,
+            bins=[0,1]
+            )
+@CoverPoint("top.cross.ab",
+            items = ["top.a",
+                     "top.b"
+                    ]
+            )
+
+def ab_cover(a, b):
+    pass
 
 @cocotb.test()
 async def ifc_test_demo(dut):
@@ -30,10 +48,9 @@ async def ifc_test_demo(dut):
     OutputDriver(dut, 'y', dut.CLK, sb_fn)#cb_fn -> callback function
     
     for i in range(4):
-        # adrv(a[i])
-        # bdrv(b[i])
         adrv.append(a[i])
         bdrv.append(b[i])
+        ab_cover(a[i],b[i])
     while len(expected_value)>0:
             await(Timer(2,'ns'))
         
