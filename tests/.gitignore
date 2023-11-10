@@ -1,0 +1,9 @@
+# Exclude these folders
+__pycache__/
+sim_build/
+venv/
+
+# Exclude specific files
+or.vcd
+or_wave.vcd
+ifc.vcd
